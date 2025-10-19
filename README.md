@@ -20,7 +20,7 @@ Type "quit" to quit
 Or you can use it in non-interactive modes.  Those non-interactive
 modes are invoked by either piping a calculation to the program:
 ```shell
-echo "0x723 * 4" | zx
+$ echo "0x723 * 4" | zx
 7308
 ```
 
@@ -63,6 +63,9 @@ Type `help` to get help.
 |`sin 0.5` | sine function |
 |`cos 0.5` | cosine function |
 |`tan 0.5` | tangent funciton |
+|`floor 1.9` | round down |
+|`ceil 1.4` | round up |
+|`round 0.5` | round to nearest integer |
 |`20 \| 7` | bitwise OR |
 |`61 & 15` | bitwise AND |
 |`61 ^ 85` | bitwise XOR |
