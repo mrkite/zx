@@ -29,6 +29,7 @@ pkg_check_modules(LIBMPFR REQUIRED IMPORTED_TARGET mpfr)
 target_include_directories(${PROJECT_NAME} PUBLIC ${LIBMPFR_INCLUDE_DIRS})
 target_link_directories(${PROJECT_NAME} PUBLIC ${LIBMPFR_LIBRARY_DIRS})
 target_link_libraries(${PROJECT_NAME} PUBLIC ${LIBMPFR_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PUBLIC readline)
 
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
 

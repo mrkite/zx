@@ -5,9 +5,11 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <gmp.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 #include "calculator.h"
 
-#define VERSION "1.0"
+#define VERSION "1.1"
 
 static void printHelp() {
   fprintf(stdout, "Calculator usage\n"
@@ -216,28 +218,21 @@ int main(int argc, char **argv) {
     handleLine(&state, line);
     free(line);
   } else {
-    bool prompt = false;
+    const char *prompt = NULL;
     // no args, so keep reading lines from stdin
     if (isatty(fileno(stdin))) {
       // we print a header if we're not piping
       fprintf(stdout, "zx version %s\n© Copyright 2025 Sean Kasun\nType \"quit\" to quit\n", VERSION);
-      prompt = true;
+      prompt = ": ";
     }
-    char line[1024];
-    if (prompt) {
-      fprintf(stdout, ": ");
-    }
-    while (fgets(line, sizeof(line), stdin)) {
-      char *eof = strchr(line, '\n');
-      if (eof) {
-        *eof = 0;
-      }
+    char *line = NULL;
+    using_history();
+    while ((line = readline(prompt)) != NULL) {
+      add_history(line);
       if (!handleLine(&state, line)) {
         break;
       }
-      if (prompt) {
-        fprintf(stdout, ": ");
-      }
+      free(line);
     }
   }
   return 0;
