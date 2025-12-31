@@ -451,10 +451,6 @@ static struct Tree *parseChar(struct Reader *reader) {
       uint32_t val = 0;
       // parse utf8
       switch (*reader->p & 0xf0) {
-        case 0x00:  // ascii
-        case 0x80:  // not utf8
-          val = *reader->p++;
-          break;
         case 0xc0:  // 2 byte utf8
           val = (*reader->p++ & 0x1f) << 6;
           val |= *reader->p++ & 0x3f;
@@ -469,6 +465,9 @@ static struct Tree *parseChar(struct Reader *reader) {
           val |= (*reader->p++ & 0x3f) << 12;
           val |= (*reader->p++ & 0x3f) << 6;
           val |= *reader->p++ & 0x3f;
+          break;
+        default:  // ascii
+          val = *reader->p++;
           break;
       }
       mpz_set_ui(v.z, val);
